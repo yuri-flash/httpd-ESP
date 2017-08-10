@@ -1,0 +1,193 @@
+.w3-theme-l5 {color:#000 !important; background-color:#f6f6f6 !important}
+.w3-theme-l4 {color:#000 !important; background-color:#dfdfdf !important}
+.w3-theme-l3 {color:#000 !important; background-color:#c0c0c0 !important}
+.w3-theme-l2 {color:#fff !important; background-color:#a0a0a0 !important}
+.w3-theme-l1 {color:#fff !important; background-color:#818181 !important}
+.w3-theme-d1 {color:#fff !important; background-color:#575757 !important}
+.w3-theme-d2 {color:#fff !important; background-color:#4e4e4e !important}
+.w3-theme-d3 {color:#fff !important; background-color:#444444 !important}
+.w3-theme-d4 {color:#fff !important; background-color:#3a3a3a !important}
+.w3-theme-d5 {color:#fff !important; background-color:#303030 !important}
+
+.w3-theme-light {color:#000 !important; background-color:#f6f6f6 !important}
+.w3-theme-dark {color:#fff !important; background-color:#303030 !important}
+.w3-theme-action {color:#fff !important; background-color:#303030 !important}
+
+.w3-theme {color:#fff !important; background-color:#606060 !important}
+.w3-text-theme {color:#606060 !important}
+.w3-border-theme {border-color:#606060 !important}
+
+.w3-hover-theme:hover {color:#fff !important; background-color:#606060 !important}
+.w3-hover-text-theme {color:#606060 !important}
+.w3-hover-border-theme:hover {border-color:#606060 !important}
+
+
+
+/*//yuri*/
+input[type='checkbox'] {
+  display:block;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  -webkit-appearance: button;
+  border:none;
+  background: no-repeat 0 0 transparent;
+  /*background-color: #5b5a5a;*/
+  background-color: #c63d3d;
+  width: 200px;
+  height: 50px;
+  border-radius: 10px;
+  box-shadow: inset 0 1px 4px rgba(0,0,0,.2);
+  cursor: pointer;
+  position: relative;
+  transition: background-color 1s;
+}
+input[type='checkbox'].error{
+   background-color: #c63d3d;
+}
+input[type='checkbox']:after{
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 80%;
+  background-color: #fdfdfd;
+  margin: 2.5%;
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(0,0,0,.2);
+
+  background: rgb(255,255,255);
+background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(243,243,243,1) 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(100%,rgba(243,243,243,1)));
+background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(243,243,243,1) 100%);
+background: -o-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(243,243,243,1) 100%);
+background: -ms-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(243,243,243,1) 100%);
+background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(243,243,243,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f3f3f3',GradientType=0 );
+
+ transition: .5s all;
+}
+
+input[type='checkbox']:checked{
+  background-color: #2b8229;
+}
+
+input[type='checkbox']:checked:after {
+  left: 45%;
+}
+
+    .row {
+      padding: 10px;
+      width: 100%;
+      overflow-y: auto;
+      overflow-x: hidden
+    }
+
+    .bottomRow {
+      margin-bottom: 50px
+    }
+
+    .text {
+      float: left;
+      height: 25px;
+      line-height: 25px;
+      padding: 0 10px;
+      width: 90px;
+      color: #bfbfbf;
+      font-size: 15px;
+      cursor: auto
+    }
+
+    .textPort {
+      width: 35px
+    }
+
+    .chText {
+      float: left;
+      height: 25px;
+      line-height: 25px;
+      padding: 0 10px;
+      width: auto;
+      font-size: 15px;
+      /*color: #eee*/
+    }
+
+    .port {
+      width: 75px;
+      text-align: center
+    }
+
+    .datetime {
+      width: auto;
+      color: #fff
+    }
+
+    .switch {
+      margin: 0;
+      float: left;
+      line-height: 25px;
+      padding: 0 15px;
+      height: 25px
+    }
+
+    .select {
+      float: left;
+      height: 29px;
+      cursor: pointer;
+      /*background: 0;*/
+      /*color: #949ca2;*/
+      margin: 0 10px 0 0;
+      padding: 0 10px;
+      font-size: 15px;
+      border: 1px solid #313131
+    }
+
+    .select option {
+      /*background: #27282f;*/
+      cursor: pointer
+    }
+
+    .chHead {
+      float: left;
+      color: #eee;
+      font-weight: 100;
+      height: 25px;
+      line-height: 25px;
+      margin-right: 10px;
+      font-size: 17px
+    }
+
+    .chInput {
+      width: 40px
+    }
+
+    .voltamper {
+      float: left;
+      height: 25px;
+      line-height: 25px;
+      padding: 0 15px 0 15px;
+      color: #6b6565;
+      font-size: 16px
+    }
+
+    .sampleR {
+      margin-right: 0
+    }
+
+    .on {
+      color: #4c9c4c
+    }
+
+    .off {
+      color: #c8423e
+    }
+
+    .saveCh {
+      width: 105px;
+      text-align: center;
+      padding: 10px;
+      float: left;
+      cursor: pointer;
+      color: #e8e8e8
+    }

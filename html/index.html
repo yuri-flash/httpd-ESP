@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html>
+<title>PointSense Unit</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="w3mobile.css">
+<link rel="stylesheet" href="colour.css">
+<link rel="stylesheet" href="menu.css">
+<script src="exporting.js"></script>
+<script src="jquery.js"></script>
+<!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
+<script type="text/javascript">
+var yuri = 0;
+function testfunc(){
+  if (yuri != 0) return;
+  yuri++;
+  var script = document.createElement('script')
+  script.setAttribute("type", "text/javascript")
+  script.setAttribute("src", "highcharts.js")
+  document.getElementsByTagName("head")[0].appendChild(script)
+
+
+}
+(function() {
+  setInterval("testfunc()", 200)
+
+})();
+</script>
+<!-- <script src="highcharts.js"></script> -->
+
+
+<script type="text/javascript">
+var month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+function dateUTCConvert(date, toUTC) {
+date = new Date(date);
+var localOffset = date.getTimezoneOffset() * 60000;
+var localTime = date.getTime();
+if (toUTC) {
+date = localTime + localOffset;
+} else {
+date = localTime - localOffset;
+}
+date = new Date(date);
+return date;
+}
+
+function rightTimeFormat(time) {
+if (time < 10) time = "0" + time;
+return time;
+}
+
+function dateInsert(dt) {
+var time = rightTimeFormat(dt.getHours()) + ":" + rightTimeFormat(dt.getMinutes()) + ":" + rightTimeFormat(dt.getSeconds());
+var day = dt.getDate();
+var date = (day < 10 ? '0' : '') + day + ' ' + month[dt.getMonth()] + ' ' + dt.getFullYear();
+return date + " - " + time;
+}
+
+var serie = [[]];
+var time_division = 0.02;
+var subtitle_text;
+var title_text;
+var PSTime = '';
+var rms_array_channel;
+subtitle_text='Direction:Reverse, Peak:15.02, RMS: 14.12, Time:0.98';
+title_text='Channel 2';
+PSTime = '2017-06-01 23:17:05';
+
+rms_array_channel=[0.00,0.0,0.00,0.00,0.0,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00];
+
+var date = new Date(PSTime);
+PSTime = dateUTCConvert(date);
+PSTime = '<br>' + dateInsert(PSTime);
+var y_axis_tmp = 0;
+serie.push( [] );
+serie.push( [] );
+serie.push( [] );
+serie.push( [] );
+
+serie[0].push([y_axis_tmp,rms_array_channel[0][0]]);
+serie[1].push([y_axis_tmp,rms_array_channel[0][0]]);
+serie[2].push([y_axis_tmp,rms_array_channel[0][0]]);
+serie[3].push([y_axis_tmp,rms_array_channel[0][0]]);
+
+for (var y = 0; y < 4; y++){
+  y_axis_tmp = 0;
+  for (var i = 1; i < rms_array_channel[y].length; i++)
+  {
+    y_axis_tmp = y_axis_tmp + time_division;
+    serie[y].push([y_axis_tmp.toFixed(2),rms_array_channel[y][i]]);
+  }
+
+}
+  title_text = title_text + PSTime;
+
+$(document).ready(function() {
+	});
+</script>
+
+<script type="text/javascript">
+function autoload(){
+// document.body.style.zoom="80%";
+	// var image = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAA4ODg4PDg8REQ8WFxUXFiAdGxsdIDAiJSIlIjBJLjUuLjUuSUFOQDtATkF0W1FRW3SGcWtxhqORkaPNws3///8BDg4ODg8ODxERDxYXFRcWIB0bGx0gMCIlIiUiMEkuNS4uNS5JQU5AO0BOQXRbUVFbdIZxa3GGo5GRo83Czf/////AABEIAFUAUQMBIgACEQEDEQH/xAB5AAACAwEBAQAAAAAAAAAAAAAABwECAwQFBhAAAQMCBAMECgEFAAAAAAAAAQACAwQRBRIhUQYUMRNSYnEVFjIzQVNygZGhkiIlYWOxAQEBAQAAAAAAAAAAAAAAAAAAAQIRAQEBAAMBAAAAAAAAAAAAAAABEQIhQRL/2gAMAwEAAhEDEQA/AGHVVMdJG2SVriCbaBeD66YTG8xZJswK9bH5DHTxEAkl9koqhze3mv8AF5QMj1ywmMZnRzIh4ywkg5GTJZ5mbhTmj3CBmDjPCIm6iVRFxpgpGUGf+CWuaPcKc8e4QNL1wwj/AHfxXOOMsCYdXTX+hLbPHuEZ4twgdWHYlS4nBzFK8uZmLdRYqV8xwfNTtopw6VgJmX06AQhCDg4gDuWgLRciVKzFoWvmjvmBym6bONgcl2nQse0pZ40HPfHINDYNQfPcozvOU8pHu5aWl7zVOWXvj8IM+Ui3cp5OLxLXLL3x+FOST5n6QZ8nD4vyp5OHY/laZH/M/SsIZSAc7rH/AAgzZSxNc1zbgggg3TtjJMcZPUtCTLaeaxcC8hvU20CafDOI1NfRyunIJY8NFgmj1EIQgwxlrXYfKPJK7EARGBe4DwmhijA2gmHx0SyxDWG/jCDyAr5Xd0rMLdjXy3ygIsz3VcrtloyKR7g1rblAzl+S4Vz2kT22e2+41Cna3481cUlRa+TS+4WscNYGjI4gXAFnbqkkkwbrOHXPQKMzmx6VG39IVZVl7aLOxzzqLmx0K+64LcBQVBPzAl9K5zmvc4kmxTC4MafR01vmIPpEIQg5sSA9G1J+JbolhXe5P1BNDHB/b5PNqWGI+6O9xdB5Ku0gfC6zC1je6N2ZvVFlygA36K+VztQw/YLXnKjv/oKOan+YUNuYjJK7QRn7BD2SMAD2lu1wgTzA3EjlIEkztXXO5KdLvK2sJPdv+kpmcHNthjzvKl3LTubFIS9mg6A7pl8KNAweI7veUZeshCEHLjIBw6a/h/6lfiZsHM3OibFXTdvSyxjqW6JP4k48xJHa2VyDhB0CtdZ3O4U67oNLlW1VGse72Q4+QWzaSpfo2nmd5NKCuu6L+Jd8WC4nL7NDN9wuqPhrGH9KK3m4IOXDIWVNfSwuGdr5ACE2oIIaWFkUTA1jegXFh+HQUVNTt7GMTMYA97RqSu5AIQhALgqeGsJqql9TLE4vf4kIQTFw9gvXkWHzXazC8Ojtlo4RbwoQgGwxM9mNg8gAhCEEoQhAIQhAIQhB/9k=";
+	// document.getElementById("image1").src = image;
+	// document.getElementById("image2").src = image;
+	cleanPage();
+  initSelectChannel();
+  ajaxSend("time.cgi", loadTimeConfig);
+  // selectChannel(event, '0');
+	document.getElementById("about").style.display = "block";
+
+
+}
+
+function loadTimeConfig(b) {
+
+
+document.getElementById("timeLabel").innerHTML = b;
+  // var g = document.getElementById("tspointTime");
+  // if (b != "") {
+  //   var f = JSON.parse(b);
+  //   if (f && "datetime" in f) {
+  //     var e = f.datetime;
+  //     var a = new Date(e);
+  //     var d = dateUTCConvert(a);
+  //     tspTime = d;
+  //     var c = document.createTextNode(dateInsert(tspTime));
+  //     g.innerHTML = "";
+  //     g.appendChild(c);
+  //     logMessage("default", "PointSense time loaded")
+  //   } else {
+  //     logMessage("Error", "Failed to get time config")
+  //   }
+  // } else {
+  //   logMessage("Error", "Failed to get time config")
+  // }
+}
+
+function readSingleFile(file, func, graphObj) {
+  // function ajaxSend(a, d) {
+    var b = new XMLHttpRequest();
+    var c = "/" + file;
+    if (b != null) {
+      b.onreadystatechange = function() {
+        if (b.readyState == 4 && b.status == 200) {
+          if (func != null) {
+            func(file[file.length -1],b.responseText, graphObj)
+          }
+        }
+      };
+      b.open("GET", c, true);
+      b.send()
+    } else {
+      logMessage("Error", "Failed to create XMLHttpRequest")
+    }
+    return ""
+}
+
+
+function updateChannel(channel, channel_data, chartObj){
+  var graphColour;
+  var serie_temp = [];
+  var y_axis_tmp = 0;
+  // serie_temp.push( [] );
+  switch(channel){
+    case '1':
+      graphColour = '#5f61e2';
+      break
+
+    case '2':
+      graphColour = '#d18e0a';
+      break
+
+    case '3':
+      graphColour = '#d10a0a';
+      break
+
+    case '4':
+      graphColour = '#54ba43';
+      break
+    }
+
+  // chartObj.chart('container1', {chart: {type: 'area',zoomType: 'x'},
+  // yAxis: {title: {text: 'AMPS'}},
+  // legend: {enabled: false},
+  // plotOptions: {series: {pointStart: 0,pointInterval: 0.02,turboThreshold:0}},
+  // title: {text: "Channel 1"},subtitle: {text: "loading..."},series: [{ name:'amp',data:rms_array_channel}]});
+  // var channel_data_temp ="["+channel_data+"]";
+
+  var channel_data_temp = channel_data.split(",");
+
+    for (var i = 1; i < channel_data_temp.length; i++)
+    {
+      y_axis_tmp = y_axis_tmp + time_division;
+      serie_temp.push([parseFloat(y_axis_tmp.toFixed(2)),parseFloat(channel_data_temp[i])]);
+    }
+
+
+  // serie_temp.push([y_axis_tmp,channel_data_temp[0]]);
+  //
+  //   var y_axis_tmp = 0;
+  //   for (var i = 1; i < channel_data_temp.length; i++)
+  //   {
+  //     y_axis_tmp = y_axis_tmp + time_division;
+  //     serie_temp.push([y_axis_tmp.toFixed(2),channel_data_temp[i]]);
+  //   }
+
+  // chartObj.chart('container' + channel, {chart: {type: 'area',zoomType: 'x'},
+  // yAxis: {title: {text: 'AMPS'}},
+  // legend: {enabled: false},
+  // plotOptions: {series: {pointStart: 0,pointInterval: 0.02,turboThreshold:0}},
+  // title: {text: "Channel " + channel},subtitle: {text: ""} ,series: [{ name:'amp',color:graphColour,data:channel_data_temp}]});
+
+  Highcharts.chart('container' + channel, {chart: {type: 'area',zoomType: 'x'},
+  yAxis: {title: {text: 'AMPS'}},
+  legend: {enabled: false},
+  plotOptions: {series: {pointStart: 0,pointInterval: 0.02,turboThreshold:0}},
+  title: {text: 'Channel ' + channel},subtitle: {text: ""},series: [{ name:'amp',color:graphColour,data:serie_temp}]});
+}
+
+
+function ajaxSend(a, d) {
+  var b = new XMLHttpRequest();
+  var c = "http://192.168.4.1/" + a;
+  if (b != null) {
+    b.onreadystatechange = function() {
+      if (b.readyState == 4 && b.status == 200) {
+        if (d != null) {
+          d(b.responseText)
+        }
+      }
+    };
+    b.open("GET", c, true);
+    b.send()
+  } else {
+    logMessage("Error", "Failed to create XMLHttpRequest")
+  }
+  return ""
+}
+
+function cleanPage(){
+document.getElementById("time").style.display = "none";
+document.getElementById("network").style.display = "none";
+document.getElementById("channels").style.display = "none";
+document.getElementById("rs485").style.display = "none";
+document.getElementById("graph").style.display = "none";
+document.getElementById("reboot").style.display = "none";
+document.getElementById("about").style.display = "none";
+
+}
+
+function channels(){
+cleanPage();
+document.getElementById("channels").style.display = "block";
+closeNav();
+}
+
+function timeUnit(){
+cleanPage();
+document.getElementById("time").style.display = "block";
+closeNav();
+}
+
+function networkSettings(){
+cleanPage();
+document.getElementById("network").style.display = "block";
+closeNav();
+}
+
+function show_about(){
+cleanPage();
+document.getElementById("about").style.display = "block";
+closeNav();
+}
+
+function rs485(){
+cleanPage();
+document.getElementById("rs485").style.display = "block";
+closeNav();
+}
+
+function graphUnit(){
+  cleanPage();
+  document.getElementById("graph").style.display = "block";
+  // Highcharts.chart('container', {chart: {type: 'area',zoomType: 'x'},
+  // yAxis: {title: {text: 'AMPS'}},
+  // legend: {enabled: false},
+  // plotOptions: {series: {pointStart: 0,pointInterval: 0.02,turboThreshold:0}},
+  // title: {text: title_text},subtitle: {text: subtitle_text},series: [{ name:'amp',data:serie[0]}]});
+
+  Highcharts.chart('container1', {chart: {type: 'area',zoomType: 'x'},
+  yAxis: {title: {text: 'AMPS'}},
+  legend: {enabled: false},
+  plotOptions: {series: {pointStart: 0,pointInterval: 0.02,turboThreshold:0}},
+  title: {text: "Channel 1"},subtitle: {text: "loading..."},series: [{ name:'amp',data:rms_array_channel}]});
+
+  Highcharts.chart('container2', {chart: {type: 'area',zoomType: 'x'},
+  yAxis: {title: {text: 'AMPS'}},
+  legend: {enabled: false},
+  plotOptions: {series: {pointStart: 0,pointInterval: 0.02,turboThreshold:0}},
+  title: {text: "Channel 2"},subtitle: {text: "loading..."},series: [{ name:'amp', color:'#d18e0a',data:rms_array_channel}]});
+
+  Highcharts.chart('container3', {chart: {type: 'area',zoomType: 'x'},
+  yAxis: {title: {text: 'AMPS'}},
+  legend: {enabled: false},
+  plotOptions: {series: {pointStart: 0,pointInterval: 0.02,turboThreshold:0}},
+  title: {text: "Channel 3"},subtitle: {text: "loading..."},series: [{ name:'amp', color: '#d10a0a',data:rms_array_channel}]});
+
+  Highcharts.chart('container4', {chart: {type: 'area',zoomType: 'x'},
+  yAxis: {title: {text: 'AMPS'}},
+  legend: {enabled: false},
+  plotOptions: {series: {pointStart: 0,pointInterval: 0.02,turboThreshold:0}},
+  title: {text: "Channel 4"},subtitle: {text: "loading..."},series: [{ name:'amp',color:'#54ba43',data:rms_array_channel}]});
+  readSingleFile("settings/ch1",updateChannel, Highcharts);
+  readSingleFile("settings/ch2",updateChannel, Highcharts);
+  readSingleFile("settings/ch3",updateChannel, Highcharts);
+  readSingleFile("settings/ch4",updateChannel, Highcharts);
+  closeNav();
+}
+
+function reboot(){
+cleanPage();
+document.getElementById("reboot").style.display = "block";
+closeNav();
+}
+
+</script>
+
+<style>
+body {
+    font-family: "Lato", sans-serif;
+}
+
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidenav a:hover, .offcanvas a:focus{
+    color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+</style>
+
+<body onload="autoload()">
+
+<!-- <nav class="w3-sidebar w3-bar-block w3-card" id="mySidebar">
+<div class="w3-container w3-theme-d2">
+  <span onclick="closeSidebar()" class="w3-button w3-display-topright w3-large">X</span>
+  <br>
+  <div class="w3-padding w3-center">
+    <img id='image1' src="mrdlogo.png" alt="avatar" style="width:75%">
+  </div>
+</div>
+<b>Settings</b>
+<a class="w3-bar-item w3-button" href="#" onclick="timeUnit()">Time</a>
+<a class="w3-bar-item w3-button" href="#" onclick="networkSettings()">Network</a>
+<a class="w3-bar-item w3-button" href="#" onclick="channels()">Channels</a>
+<a class="w3-bar-item w3-button" href="#" onclick="rs485()">RS485</a>
+<a class="w3-bar-item w3-button" href="#" onclick="graphUnit()">Graph</a>
+<a class="w3-bar-item w3-button" href="#" onclick="reboot()">Reboot Unit</a>
+
+</nav> -->
+
+<script>
+function openNav() {
+    document.getElementById("mySidenav").style.width = "250px";
+}
+
+function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+}
+</script>
+
+<div class="w3-container" id="about" style="margin-top:70px;">
+<hr>
+<div class="w3-cell-row" style="">
+  <!-- <div class="w3-cell" style="width:30%"> -->
+
+  </div>
+	<div class="w3-cell w3-container">
+
+	<div id="timeBody" class="tabData hidden">
+	<img  id='image2' alt="avatar" src="pointsense.jpg" style="width:20%">
+	<br>
+	<h3>PRODUCT DESCRIPTION</h3>
+	<div class="row">
+	<p>The TrackSense is a multi-function rail infrastructure logger designed for low cost, high quality condition monitoring of rail assets such as trackside battery banks, level crossings, points units, track circuits and earth leakage. It remotely monitors and logs the key parameters of vital assets through a configurable array of sensors, providing precise real-time measurements to maintenance personnel and eliminating the need for costly site visits to identify the source of a problem.
+
+The TrackSense is a flexible, all-in-one user configurable system which allows you to log, view and analyse your data – your way....</p>
+	</div>
+	</div>
+
+  </div>
+</div>
+<hr>
+
+</div>
+
+
+<header class="w3-top w3-bar w3-theme">
+  <div id="mySidenav" class="sidenav w3-sidebar w3-bar-block w3-card">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <b>Settings</b>
+    <a class="w3-bar-item w3-button" href="#" onclick="timeUnit()">Time</a>
+    <a class="w3-bar-item w3-button" href="#" onclick="networkSettings()">Network</a>
+    <a class="w3-bar-item w3-button" href="#" onclick="channels()">Channels</a>
+    <a class="w3-bar-item w3-button" href="#" onclick="rs485()">RS485</a>
+    <a class="w3-bar-item w3-button" href="#" onclick="graphUnit()">Graph</a>
+    <a class="w3-bar-item w3-button" href="#" onclick="reboot()">Reboot Unit</a>
+    <a class="w3-bar-item w3-button" href="#" onclick="show_about()">About</a>
+
+  </div>
+  <button  class="w3-bar-item w3-button w3-xxlarge w3-hover-theme" onclick="openNav()">&#9776;</button>
+  <h3 class="w3-bar-item">PointSense Settings</h3>
+</header>
+
+<div class="w3-container" id="time" style="margin-top:70px;">
+<hr>
+<div class="w3-cell-row" style="">
+  <div class="w3-cell" style="width:30%">
+
+  </div>
+	<div class="w3-cell w3-container">
+
+	<div id="timeBody" class="tabData hidden">
+	<br>
+	<h3>PointSense Time Configuration</h3>
+	<div class="row">
+	<div id="timeLabel">PS Time: 16 May 2017 - 00:17:52</div>
+	<!-- <div id="tspointTime">Current time: 16 May 2017 - 00:17:52</div> -->
+	<br>
+    <button class="btn" onclick="saveTime()">Update time</button>
+	</div>
+	</div>
+
+  </div>
+</div>
+<hr>
+</div>
+
+
+<div class="w3-container" id="network" style="margin-top:70px;">
+<hr>
+<div class="w3-cell-row" style="">
+  <!-- <div class="w3-cell" style="width:30%">
+    <img class="w3-circle" src="" style="width:100%">
+  </div> -->
+  <div class="w3-cell w3-container">
+<h3>Cloud Server Network</h3>
+<div class="row">
+<div class=""> IP Address: </div> <input id="cloudIp" type="text" class="ipAddress">
+<div class=""> Port: </div><input id="cloudPort" class="port">
+</div>
+<h3>PointSense Network</h3>
+<div class="row">
+<div class="chText">DHCP:</div>
+<label class="switch" style="zoom:0.8">
+  <input type="checkbox">
+  <div class="slider round"></div>
+</label>
+</div>
+<hr>
+<div class="row">
+<div class="">IP Address: </div><input id="tsIp" type="text" class="left ipAddress tspnet hidden">
+</div>
+<div class="row">
+<div class="">Netmask: </div><input id="tsNetmask" type="text" class="left ipAddress tspnet hidden">
+</div>
+<div class="row">
+<div class="">Gateway: </div><input id="tsGateway" type="text" class="left ipAddress tspnet hidden">
+</div>
+<button id="setNetwork" class="btn" onclick="setNetwork()">Save Network</button>
+  </div>
+</div>
+<br><br>
+<hr>
+</div>
+
+
+<div class="w3-container" id="channels" style="margin-top:70px;">
+
+  <div class="tab">
+    <button class="tablinks" onclick="selectChannel(event, '0')">CH 1</button>
+    <button class="tablinks" onclick="selectChannel(event, '1')">CH 2</button>
+    <button class="tablinks" onclick="selectChannel(event, '2')">CH 3</button>
+    <button class="tablinks" onclick="selectChannel(event, '3')">CH 4</button>
+  </div>
+
+  <div id="channelSettings" class="tabcontent">
+    <div id="channel2Body" class="tabData" style="zoom:0.7">
+
+	<div id="ch2Status" class="">
+		<div class="row">
+			<div class="chText">Input Type: </div>
+			<select id="ach2" class="select channelType" onchange="typeChange(2)">
+				<option value="None">None</option>
+				<option value="0">Voltage</option>
+				<option value="1">Current</option>
+			</select>
+			<div id="typeRange2" class="">
+				<div class="chText"> Range: </div>
+				<select id="ach2Crange" class="select" onchange="inputRangeUpdate(2)">
+					<option value="0">0mA - 20mA</option>
+					<option value="1">4mA - 20mA</option>
+				</select>
+				<div class="chText"> Sample Rate: </div>
+				<select id="ach2Srate" class="select sampleR">
+					<option value="100">100</option>
+					<option value="200">200</option>
+					<option value="500">500</option>
+					<option value="1000">1k</option>
+				</select>
+				<div class="voltamper">Hz</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="chText">Sensor Name:
+			<input id="sensorName2" class="chNameInput">
+      </div>
+				<div class="chText">Type:</div>
+				<select id="sSelect2" class="select" onchange="sensorTypeChange(2)">
+					<option value="None">None</option>
+					<option value="0">Voltage</option>
+					<option value="1">Current</option>
+				</select>
+			</div>
+			<div class="row">
+				<div class="chText">Input Range:</div>
+				<input id="measureMin2" class="chInput numInput">
+					<div class="volt2 voltamper hidden">V</div>
+					<div class="amper2 voltamper">mA</div>
+					<div class="chText"></div>
+					<input id="measureMax2" class="chInput numInput">
+						<div class="volt2 voltamper hidden">V</div>
+						<div class="amper2 voltamper">mA</div>
+					</div>
+					<div class="row">
+						<div class="chText">Sensor Range:</div>
+						<input id="scopeMin2" class="chInput numInput">
+							<div class="svolt2 voltamper hidden">V</div>
+							<div class="samper2 voltamper">A</div>
+							<div class="chText"></div>
+							<input id="scopeMax2" class="chInput numInput">
+								<div class="svolt2 voltamper hidden">V</div>
+								<div class="samper2 voltamper">A</div>
+							</div>
+							<div id="optional2line1" class="row" style="visibility: visible;">
+								<div class="chText"> Trigger Source: </div>
+								<select id="trgSelect2" class="select channelTrigger" onchange="trgSelect(2);">
+									<option value="None">None</option>
+									<option value="0">GPIO</option>
+									<option value="1">Waveform</option>
+								</select>
+								<span id="triggerG2" class="row hidden">
+									<div class="chText "> GPIO: </div>
+									<select id="trg2" class="select " onchange="trigger();">
+										<option class="" value="None">None</option>
+										<option class="trig1 trg hidden" value="0">D1</option>
+										<option class="trig2 trg" value="1">D2</option>
+										<option class="trig3 trg" value="2">D3</option>
+										<option class="trig4 trg" value="3">D4</option>
+									</select>
+									<div class="chText "> Active: </div>
+									<select id="pol2" class="select ">
+										<option class="High" value="1">High</option>
+										<option class="Low" value="0">Low</option>
+									</select>
+								</span>
+								<div id="triggerW2" class="row">
+									<div class="row">
+										<div class="chText">Source Channel: </div>
+										<select id="trgS2" class="select trgS">
+											<option value="None">None</option>
+											<option value="0">Channel 1</option>
+											<option value="1">Channel 2</option>
+										</select>
+									</div>
+									<div class="row">
+										<div class="chText">Rising Activate: </div>
+										<input id="ra2" class="chInput numInput">
+											<div class="svolt2 voltamper hidden">V</div>
+											<div class="samper2 voltamper">A</div>
+											<div class="chText">Rising Deactivate: </div>
+											<input id="rd2" class="chInput numInput">
+												<div class="svolt2 voltamper hidden">V</div>
+												<div class="samper2 voltamper">A</div>
+											</div>
+											<div class="row">
+												<div class="chText">Falling Activate: </div>
+												<input id="fa2" class="chInput numInput">
+													<div class="svolt2 voltamper hidden">V</div>
+													<div class="samper2 voltamper">A</div>
+													<div class="chText">Falling Deactivate: </div>
+													<input id="fd2" class="chInput numInput">
+														<div class="svolt2 voltamper hidden">V</div>
+														<div class="samper2 voltamper">A</div>
+													</div>
+												</div>
+											</div>
+											<div id="optional2line2" class="row" style="visibility: visible;">
+												<div class="chText">Trigger Timeout:</div>
+												<input id="timeoutmin2" class="chInput numInput">
+													<div class="voltamper">-</div>
+													<input id="timeout2" class="chInput numInput">
+														<div class="voltamper"> Seconds</div>
+													</div>
+													<div id="optional2line3" class="row" style="visibility: visible;">
+														<div class="chText"> Direction Source: </div>
+														<select id="posG2" class="select channelPosition" onchange="position(this.id);">
+															<option value="None">None</option>
+															<option value="0">GPIO</option>
+															<option value="1">Waveform</option>
+															<option value="2">Analog Input</option>
+															<option value="3">Automatic</option>
+														</select>
+														<span id="posG2GPIO" class="hidden">
+															<div class="chText"> GPIO: </div>
+															<select id="pos2" class="select " onchange="positionG();">
+																<option class="" value="None">None</option>
+																<option class="pos1 pos hidden" value="0">D1</option>
+																<option class="pos2 pos hidden" value="1">D2</option>
+																<option class="pos3 pos" value="2">D3</option>
+																<option class="pos4 pos" value="3">D4</option>
+															</select>
+															<div class="chText">Forward:</div>
+															<select id="posF2Forward" class="select">
+																<option value="0">High</option>
+																<option value="1">Low</option>
+															</select>
+														</span>
+														<span id="posG2Fw" class="hidden">
+															<div class="chText">Forward:</div>
+															<select id="pos2Forward" class="select">
+																<option value="0">Positive</option>
+																<option value="1">Negative</option>
+															</select>
+														</span>
+														<span id="posG2Sc" class="hidden">
+															<div class="chText">Channel:</div>
+															<select id="analogic2" class="select analogic" onmouseenter="addAnalogicSelect(this.id)" onclick="updateFreeChannels();">
+																<option value="None">None</option>
+																<option value="0">Channel 1</option>
+																<option value="1">Channel 2</option>
+																<option value="2">Channel 3</option>
+																<option value="3">Channel 4</option>
+															</select>
+															<div class="chText">Forward:</div>
+															<select id="posThrshold2Forward" class="select">
+																<option value="0">Above</option>
+																<option value="1">Below</option>
+															</select>
+															<div class="chText">Threshold:</div>
+															<input id="thresholdCh2" class="chInput numInput">
+																<div class="voltamper"></div>
+															</span>
+															<span id="posG2Sb" class="">
+																<div class="chText">Next Movement:</div>
+																<select id="ch2nextPosition" class="select">
+																	<option value="1">Forward</option>
+																	<option value="0">Reverse</option>
+																</select>
+																<div id="chNextMv2Switch" class="btn switch" onclick="syncDirectionChannel(2);">Sync</div>
+															</span>
+														</div>
+														<div class="row">
+															<div class="chText">Zero sensor:</div>
+															<div id="ch2Switch" class="btn switch" onclick="zeroCalibrate(2);">Calibrate</div>
+														</div>
+													</div>
+												</div>
+  </div>
+
+  </div>
+</div>
+
+<script>
+
+function loadChannelSettings(currentChannel){
+
+}
+
+function initSelectChannel() {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+
+  tablinks = document.getElementsByClassName("tablinks");
+      tablinks[0].className  += " active";
+}
+
+function selectChannel(evt, currentChannel) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+
+    loadChannelSettings(currentChannel);
+
+    evt.currentTarget.className += " active";
+}
+</script>
+
+
+<div class="w3-container" id="rs485" style="margin-top: 70px;">
+<hr>
+<div class="w3-cell-row" style="">
+  <!-- <div class="w3-cell" style="width:30%">
+    <img class="w3-circle" src="" style="width:100%">
+  </div> -->
+  <div class="w3-cell w3-container">
+    <h3>Settings RS485</h3>
+    <div class="row">
+      <div class="chText"> Baud Rate:</div>
+
+        <select id="baudRate" class='select channelType'>
+          <option value="115200">115200</option>
+          <option value="38400">38400</option>
+          <option selected value="19200">19200</option>
+          <option value="9600">9600</option>
+          <option value="4800">4800</option>
+          <option value="2400">2400</option>
+        </select>
+
+          <div class="chText"> Parity:</div>
+        <select id="parity" class='select channelType'>
+          <option value="0">Disabled</option>
+          <option value="1">Odd</option>
+          <option value="2">Even</option>
+        </select>
+        <!-- <input class="regular-checkbox" type="checkbox" id="channelCheck8" style="zoom:0.5" onClick="checkChange(this)"> -->
+    </div>
+    <hr>
+    <div class="row">
+      <div class="chText"> Channel 5:</div>
+      <input class="regular-checkbox" type="checkbox" id="channelCheck5" style="zoom:0.5" onClick="checkChange(this)">
+      <div class="row hidden" id="channelOptions5">
+      <div class="chText" > RS485 ID: <input id="chInputRSId5" class="chInput numInput"></div>
+
+          <div class="chText"> Sample every: <input id="chInputInterval5" class="chInput numInput"></div>
+
+          <select id="chInputIntervalSelect5" class='select channelType'>
+            <option value="0">seconds</option>
+            <option value="1">minutes</option>
+            <option value="2">hours</option>
+          </select>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="chText"> Channel 6:</div>
+        <input class="regular-checkbox" type="checkbox" id="channelCheck6" style="zoom:0.5" onClick="checkChange(this)">
+        <div class="row hidden" id="channelOptions6">
+        <div class="chText" > RS485 ID: <input id="chInputRSId6" class="chInput numInput"></div>
+
+            <div class="chText"> Sample every: <input id="chInputInterval6" class="chInput numInput"></div>
+
+            <select id="chInputIntervalSelect6" class='select channelType'>
+              <option value="0">seconds</option>
+              <option value="1">minutes</option>
+              <option value="2">hours</option>
+            </select>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="chText"> Channel 7:</div>
+          <input class="regular-checkbox" type="checkbox" id="channelCheck7" style="zoom:0.5" onClick="checkChange(this)">
+          <div class="row hidden" id="channelOptions7">
+          <div class="chText" > RS485 ID: <input id="chInputRSId7" class="chInput numInput"></div>
+
+              <div class="chText"> Sample every: <input id="chInputInterval7" class="chInput numInput"></div>
+
+              <select id="chInputIntervalSelect7" class='select channelType'>
+                <option value="0">seconds</option>
+                <option value="1">minutes</option>
+                <option value="2">hours</option>
+              </select>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="chText"> Channel 8:</div>
+            <input class="regular-checkbox" type="checkbox" id="channelCheck8" style="zoom:0.5" onClick="checkChange(this)">
+            <div class="row hidden" id="channelOptions8">
+            <div class="chText" > RS485 ID: <input id="chInputRSId8" class="chInput numInput"></div>
+
+                <div class="chText"> Sample every: <input id="chInputInterval8" class="chInput numInput"></div>
+
+                <select id="chInputIntervalSelect8" class='select channelType'>
+                  <option value="0">seconds</option>
+                  <option value="1">minutes</option>
+                  <option value="2">hours</option>
+                </select>
+              </div>
+            </div>
+  </div>
+</div>
+<hr>
+</div>
+
+
+<div class="w3-container" id="graph" style="margin-top:70px;">
+<div class="w3-cell-row" style="">
+
+  <div class="w3-cell w3-container">
+    <div id="container1"></div>
+    <br>
+    <hr>
+		<div id="container2"></div>
+    <br>
+    <hr>
+    <div id="container3"></div>
+    <br>
+    <hr>
+    <div id="container4"></div>
+    <br>
+    <hr>
+  </div>
+</div>
+<hr>
+</div>
+
+
+<div class="w3-container" id="reboot" style="margin-top:70px;">
+<hr>
+<div class="w3-cell-row" style="">
+  <!-- <div class="w3-cell" style="width:30%">
+    <img class="w3-circle" src="" style="width:100%">
+  </div> -->
+  <div class="w3-cell w3-container">
+    <h3>Reboot</h3>
+    <p>Reboot Unit Buttom and other stuff</p>
+  </div>
+</div>
+<hr>
+</div>
+
+
+
+<footer style="zoom: 60%" class="w3-container w3-bottom w3-theme w3-margin-top">
+  <h3>MRD Railway Technology</h3>
+</footer>
+
+<script>
+closeNav();
+function openSidebar() {
+    document.getElementById("mySidebar").style.display = "block";
+}
+function closeSidebar() {
+    document.getElementById("mySidebar").style.display = "none";
+}
+</script>
+
+</body>
+
+</html>
